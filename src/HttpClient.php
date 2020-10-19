@@ -110,7 +110,6 @@ class HttpClient
      */
     private function requestForGetAccessToken()
     {
-        echo $this->config->getBaseTokenUri();
         $client = new Client(['base_uri' => $this->config->getBaseTokenUri()]);
         $response = $client->request('POST',$this->config->getTokenEndpoint(), [
             'form_params' => [
