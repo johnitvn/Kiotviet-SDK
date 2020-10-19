@@ -12,11 +12,6 @@ class KVClient
      */
     protected $config;
 
-    /**
-     * @var
-     */
-    protected $accessToken;
-
     
     /**
      * @var HttpClient
@@ -30,8 +25,7 @@ class KVClient
      * @throws \Exception
      */
     public function __construct(Config $config)
-    {
-        
+    {    
         $this->config = $config;
         $this->client = new HttpClient($config);
     }
@@ -45,60 +39,60 @@ class KVClient
     }
 
     /**
-     * @param $url
+     * @param $endPoint
      * @param array $params
      * @return mixed|\Psr\Http\Message\ResponseInterface|string
      * @throws \Exception
      */
-    public function get($url, array $params)
+    public function get($endPoint, array $params)
     {
-        return $this->client->doRequest('GET', $url, $params, $accessToken, $retailer);
+        return $this->client->doRequest('GET', $endPoint, $params);
     }
 
     /**
-     * @param $url
+     * @param $endPoint
      * @param array $params
      * @return mixed|\Psr\Http\Message\ResponseInterface|string
      * @throws \Exception
      */
-    public function post($url, array $params)
+    public function post($endPoint, array $params)
     {
-        return $this->client->doRequest('POST', $url, $params, $accessToken, $retailer);
+        return $this->client->doRequest('POST', $endPoint, $params);
     }
 
     /**
-     * @param $url
+     * @param $endPoint
      * @param array $params
      * @return mixed|\Psr\Http\Message\ResponseInterface|string
      * @throws \Exception
      */
-    public function put($url, array $params)
+    public function put($endPoint, array $params)
     {
-        return $this->client->doRequest('PUT', $url, $params, $accessToken, $retailer);
+        return $this->client->doRequest('PUT', $endPoint, $params);
     }
 
     /**
-     * @param $url
+     * @param $endPoint
      * @param array $params
      * @return mixed|\Psr\Http\Message\ResponseInterface|string
      * @throws \Exception
      */
-    public function delete($url, array $params)
+    public function delete($endPoint, array $params)
     {
-        return $this->client->doRequest('DELETE', $url, $params, $accessToken, $retailer);
+        return $this->client->doRequest('DELETE', $endPoint, $params);
     }
 
     /**
      * @param $method
-     * @param $url
+     * @param $endPoint
      * @param array $params
      * @param $accessToken
      * @param $retailer
      * @return mixed|\Psr\Http\Message\ResponseInterface|string
      */
-    public function request($method, $url, array $params)
+    public function request($method, $endPoint, array $params)
     {
-        return $this->client->doRequest($method, $url, $params, $accessToken, $retailer, [], 'json');
+        return $this->client->doRequest($method, $endPoint, $params [], 'json');
     }
 
 

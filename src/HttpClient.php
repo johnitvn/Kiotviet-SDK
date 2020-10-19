@@ -11,8 +11,8 @@ class HttpClient
 {
 
     protected $config;
-    private static $accessToken;
-    private static $expireAt;
+    protected $accessToken;
+    protected $expireAt;
 
     /**
      * Kiotviet constructor.
@@ -33,7 +33,7 @@ class HttpClient
      */
     public function doRequest($method, $endPoint, $params, $headers = [], $bodyType = '')
     {
-        $client = new Client(['base_uri' => $this->config->getBaseUri()]);
+        $client = new Client(['base_uri' => $this->config->getBaseApiUri()]);
 
         $options = [];
 
@@ -96,10 +96,10 @@ class HttpClient
     {
         // Access Token is empty or expire or have only 10 seconds to expire
         // We will request for get accesss token
-        if (empty(self::$accessToken) || self::$expireAt->diff(new DateTime("now"))->format('%s') > -10) {
+        if (empty($this->accessToken) || $this->expireAt== NULL || $this->expireAt->diff(new DateTime("now"))->format('%s') > -10) {
             $this->requestForGetAccessToken();
         }
-        return self::$accessToken;
+        return $this->accessToken;
     }
 
     /**
@@ -110,11 +110,12 @@ class HttpClient
      */
     private function requestForGetAccessToken()
     {
-        $client = new Client(['base_uri' => $this->config->getBaseUri()]);
+        echo $this->config->getBaseTokenUri();
+        $client = new Client(['base_uri' => $this->config->getBaseTokenUri()]);
         $response = $client->request('POST',$this->config->getTokenEndpoint(), [
             'form_params' => [
-                'client_id' => '209013e4-c2b0-40fd-ab21-9714b860b506',
-                'client_secret' => '6DEB5226A30316692241D734BE533A368ECA69EA',
+                'client_id' => $this->config->getClientId(),
+                'client_secret' => $this->config->getClientSecret(),
                 'grant_type'=> 'client_credentials',
                 'scopes' => 'PublicApi.Access'
             ]
@@ -124,9 +125,9 @@ class HttpClient
         $responseBody = $response->getBody();
         $responseDataArray = json_decode($responseBody,true);
     
-        self::$accessToken = $responseDataArray['access_token'];
-        self::$expireAt = new DateTime('now');
-        self::$expireAt->add(new DateInterval('PT' . $responseDataArray['expires_in'] . 'S'));
+        $this->accessToken = $responseDataArray['access_token'];
+        $this->expireAt = new DateTime('now');
+        $this->expireAt->add(new DateInterval('PT' . $responseDataArray['expires_in'] . 'S'));
 
     }
 

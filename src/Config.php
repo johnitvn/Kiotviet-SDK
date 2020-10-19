@@ -9,14 +9,16 @@ class Config
     protected $clientSecret;
     protected $retailer;
     protected $tokenEndpoint;
-    protected $baseUri;
+    protected $baseTokenUri;
+    protected $baseApiUri;
 
-    public function __construct($clientId, $clientSecret, $retailer, $baseUri = 'https://id.kiotviet.com', $tokenEndpoint = '/connect/token')
+    public function __construct($clientId, $clientSecret, $retailer, $baseApiUri = 'https://public.kiotapi.com/', $baseTokenUri = 'https://id.kiotviet.vn', $tokenEndpoint = '/connect/token')
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->retailer = $retailer;
-        $this->baseUri = $baseUri;
+        $this->baseTokenUri = $baseTokenUri;
+        $this->baseApiUri = $baseApiUri;
         $this->tokenEndpoint = $tokenEndpoint;
     }
 
@@ -35,9 +37,14 @@ class Config
         return $this->retailer;
     }
 
-    public function getBaseUri()
+    public function getBaseTokenUri()
     {
-        return $this->baseUri;
+        return $this->baseTokenUri;
+    }
+
+    public function getBaseApiUri()
+    {
+        return $this->baseApiUri;
     }
 
     public function getTokenEndpoint()
