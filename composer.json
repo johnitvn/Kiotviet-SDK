@@ -1,0 +1,23 @@
+{
+    "name": "johnitvn/kiotvietsdk",
+    "description": "This is package for developer work with kiotviet api",
+    "authors": [
+        {
+            "name": "John Martin",
+            "email": "john.itvn@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^7.3",
+        "ext-curl": "*",
+        "guzzlehttp/guzzle": "^7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "KVSDK\\": "src/"
+        }
+    }
+}
